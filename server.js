@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
+const authRoutes = require('./routes/auth');
+const mediaRoutes = require('./routes/media');
 
 const app = express();
 
@@ -27,6 +29,15 @@ app.use(session({
 // Routes
 app.get('/', (req, res) => {
     res.render('index');
+});
+
+app.use('/auth', authRoutes);
+app.use('/media', mediaRoutes);
+
+// Add auth middleware to make user available in all templates
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    next();
 });
 
 const PORT = process.env.PORT || 3000;
