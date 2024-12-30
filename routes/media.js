@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const Media = require('../models/Media');
+const { isAuthenticated } = require('../middleware/auth');
 
 // Configure multer for file upload
 const storage = multer.diskStorage({
@@ -31,7 +32,10 @@ const upload = multer({
 router.get('/gallery', async (req, res) => {
     try {
         const images = await Media.find({ type: 'image' }).sort('-uploadDate');
-        res.render('media/gallery', { images });
+        res.render('media/gallery', { 
+            images,
+            user: req.session.user || null 
+        });
     } catch (error) {
         res.status(500).render('error', { error: 'Error loading gallery' });
     }
@@ -41,22 +45,22 @@ router.get('/gallery', async (req, res) => {
 router.get('/animations', async (req, res) => {
     try {
         const animations = await Media.find({ type: 'animation' }).sort('-uploadDate');
-        res.render('media/animations', { animations });
+        res.render('media/animations', { 
+            animations,
+            user: req.session.user || null 
+        });
     } catch (error) {
         res.status(500).render('error', { error: 'Error loading animations' });
     }
 });
 
 // Upload form
-router.get('/upload', (req, res) => {
-    if (!req.session.user) {
-        return res.redirect('/auth/login');
-    }
-    res.render('media/upload');
+router.get('/upload', isAuthenticated, (req, res) => {
+    res.render('media/upload', { user: req.session.user });
 });
 
 // Handle upload
-router.post('/upload', upload.single('mediaFile'), async (req, res) => {
+router.post('/upload', isAuthenticated, upload.single('mediaFile'), async (req, res) => {
     if (!req.session.user) {
         return res.redirect('/auth/login');
     }

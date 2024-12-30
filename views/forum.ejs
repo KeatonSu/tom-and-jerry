@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Tom and Jerry Fan Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/forum.css">
+</head>
+<body>
+    <header class="forum-header">
+        <img src="/uploads/image/forum.jpg" alt="Forum Banner" style="width: 100%; height: 300px; object-fit: cover;">
+        <!-- The background image will be shown here -->
+    </header>
+
+    <nav class="nav-container">
+        <a href="/" class="nav-button">Home</a>
+        <a href="/story" class="nav-button">Story</a>
+        <a href="/characters" class="nav-button">Characters</a>
+        <a href="/media/gallery" class="nav-button">Gallery</a>
+        <a href="/forum" class="nav-button">Forum</a>
+    </nav>
+
+    <main class="content-area">
+        <h1 class="content-title">Forum</h1>
+        
+        <% if (!user) { %>
+            <div class="auth-prompt">
+                <a href="/auth/login">Login</a> or <a href="/auth/register">Register</a> 
+                to participate in discussions and upload content!
+            </div>
+        <% } %>
+
+        <div class="forum-content">
+            <% if (user) { %>
+                <div class="new-post-section">
+                    <button id="openPostModal" class="create-post-btn">Create New Post</button>
+                </div>
+            <% } %>
+
+            <div class="forum-topics">
+                <% if (typeof posts !== 'undefined' && posts.length > 0) { %>
+                    <% posts.forEach(post => { %>
+                        <div class="forum-post">
+                            <h3><%= post.title %></h3>
+                            <p class="post-content"><%= post.content %></p>
+                            <div class="post-meta">
+                                Posted by <%= post.author %> on <%= new Date(post.date).toLocaleDateString() %>
+                            </div>
+                            
+                            <!-- Comments section -->
+                            <div class="comments-section">
+                                <h4>Comments (<%= post.comments.length %>)</h4>
+                                <% post.comments.forEach(comment => { %>
+                                    <div class="comment">
+                                        <p><%= comment.content %></p>
+                                        <div class="comment-meta">
+                                            By <%= comment.author %> on <%= new Date(comment.date).toLocaleDateString() %>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                                
+                                <% if (user) { %>
+                                    <form class="comment-form" action="/forum/comment/<%= post._id %>" method="POST">
+                                        <textarea name="content" placeholder="Write a comment..." required></textarea>
+                                        <button type="submit" class="comment-btn">Post Comment</button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="no-posts">No posts yet. Be the first to start a discussion!</p>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <!-- Post Creation Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Post</h2>
+            <form action="/forum/post" method="POST">
+                <div class="form-group">
+                    <input type="text" name="title" placeholder="Post Title" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="content" placeholder="Write your post here..." required></textarea>
+                </div>
+                <button type="submit" class="submit-post-btn">Submit Post</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>This is a fan site created for learning purposes only.</p>
+    </footer>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('postModal');
+        const openBtn = document.getElementById('openPostModal');
+        const closeBtn = document.getElementsByClassName('close')[0];
+
+        if (openBtn) {
+            openBtn.onclick = function() {
+                modal.style.display = "block";
+            }
+        }
+
+        if (closeBtn) {
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html> 

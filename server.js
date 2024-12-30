@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
+
+// Import routes
 const authRoutes = require('./routes/auth');
 const mediaRoutes = require('./routes/media');
+const forumRoutes = require('./routes/forum');
 
 const app = express();
 
@@ -12,6 +15,10 @@ const app = express();
 mongoose.connect('mongodb://localhost/tom-and-jerry', {
     useNewUrlParser: true,
     useUnifiedTopology: true
+}).then(() => {
+    console.log('Connected to MongoDB');
+}).catch(err => {
+    console.error('MongoDB connection error:', err);
 });
 
 // Middleware
@@ -20,24 +27,42 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
+// Session middleware
 app.use(session({
     secret: 'tom-and-jerry-secret',
     resave: false,
     saveUninitialized: true
 }));
 
-// Routes
-app.get('/', (req, res) => {
-    res.render('index');
-});
-
-app.use('/auth', authRoutes);
-app.use('/media', mediaRoutes);
-
-// Add auth middleware to make user available in all templates
+// Make user available to all templates
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     next();
+});
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/media', mediaRoutes);
+app.use('/forum', forumRoutes);
+
+app.get('/', (req, res) => {
+    res.render('index', { user: req.session.user || null });
+});
+
+app.get('/story', (req, res) => {
+    res.render('story', { user: req.session.user || null });
+});
+
+app.get('/characters', (req, res) => {
+    res.render('characters', { user: req.session.user || null });
+});
+
+app.use('/forum', forumRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render('error', { error: 'Something broke!' });
 });
 
 const PORT = process.env.PORT || 3000;

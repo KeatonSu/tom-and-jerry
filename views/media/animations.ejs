@@ -1,1 +1,37 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animations - Tom and Jerry Fan Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/media.css">
+</head>
+<body>
+    <%- include('../partials/header') %>
+    
+    <main class="media-container">
+        <h1>Animations</h1>
+        <div class="media-grid">
+            <% animations.forEach(function(animation) { %>
+                <div class="media-item">
+                    <% if (animation.filename.endsWith('.gif')) { %>
+                        <img src="/uploads/animation/<%= animation.filename %>" alt="<%= animation.title %>">
+                    <% } else { %>
+                        <video controls>
+                            <source src="/uploads/animation/<%= animation.filename %>" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    <% } %>
+                    <div class="media-info">
+                        <h3><%= animation.title %></h3>
+                        <p><%= animation.description %></p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html> 
