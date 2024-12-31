@@ -57,8 +57,6 @@ app.get('/characters', (req, res) => {
     res.render('characters', { user: req.session.user || null });
 });
 
-app.use('/forum', forumRoutes);
-
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
