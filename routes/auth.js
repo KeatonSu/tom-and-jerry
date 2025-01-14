@@ -103,8 +103,14 @@ router.post('/login', async (req, res) => {
 
 // Logout handle
 router.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/');
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Logout error:', err);
+            return res.status(500).render('error', { error: 'Error during logout' });
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.redirect('/');
+    });
 });
 
 module.exports = router; 

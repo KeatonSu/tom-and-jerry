@@ -25,8 +25,11 @@
         
         <% if (!user) { %>
             <div class="auth-prompt">
-                <a href="/auth/login">Login</a> or <a href="/auth/register">Register</a> 
-                to participate in discussions and upload content!
+                <p>To participate in discussions:</p>
+                <div class="auth-buttons">
+                    <a href="/auth/login" class="nav-button">Login</a>
+                    <a href="/auth/register" class="nav-button">Register</a>
+                </div>
             </div>
         <% } %>
 

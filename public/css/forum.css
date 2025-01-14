@@ -20,17 +20,26 @@
 }
 
 .auth-prompt {
-    position: fixed;
-    top: 100px;
-    right: 20px;
     background: rgba(255, 255, 255, 0.95);
-    padding: 15px;
+    padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     border: 2px solid #6495ED;
-    font-size: 0.9rem;
-    max-width: 200px;
+    margin: 20px auto;
+    max-width: 400px;
     text-align: center;
+}
+
+.auth-prompt p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.auth-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
 .auth-prompt a {

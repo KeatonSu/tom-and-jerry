@@ -32,6 +32,11 @@ body {
     padding: 20px;
     background: rgba(255, 255, 255, 0.9);
     margin-top: -20px;
+    flex-wrap: wrap;
+    padding: 15px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }
 
 .nav-button {
@@ -69,4 +74,20 @@ body {
     color: #333;
     border-bottom: 2px solid #6495ED;
     padding-bottom: 10px;
+}
+
+.logout-btn {
+    background-color: #ff4444;
+    border-color: #cc0000;
+}
+
+.logout-btn:hover {
+    background-color: #cc0000;
+    color: white;
+}
+
+.user-name {
+    margin-left: 10px;
+    color: #333;
+    font-weight: bold;
 } 

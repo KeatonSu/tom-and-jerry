@@ -1,21 +1,14 @@
-<header>
-    <nav>
-        <div class="logo">
-            <h1><a href="/">Tom & Jerry</a></h1>
-        </div>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/media/gallery">Gallery</a></li>
-            <li><a href="/media/animations">Animations</a></li>
-            <li><a href="/forum">Forum</a></li>
-            <% if (user) { %>
-                <li><a href="/media/upload">Upload</a></li>
-                <li><a href="#"><%= user.username %></a></li>
-                <li><a href="/auth/logout">Logout</a></li>
-            <% } else { %>
-                <li><a href="/auth/login">Login</a></li>
-                <li><a href="/auth/register">Register</a></li>
-            <% } %>
-        </ul>
-    </nav>
-</header> 
+<header class="main-header">
+</header>
+
+<nav class="nav-container">
+    <a href="/" class="nav-button">Home</a>
+    <a href="/story" class="nav-button">Story</a>
+    <a href="/characters" class="nav-button">Characters</a>
+    <a href="/media/gallery" class="nav-button">Gallery</a>
+    <a href="/forum" class="nav-button">Forum</a>
+    <% if (user) { %>
+        <a href="/auth/logout" class="nav-button logout-btn">Logout</a>
+        <span class="user-name">Welcome, <%= user.username %></span>
+    <% } %>
+</nav> 
