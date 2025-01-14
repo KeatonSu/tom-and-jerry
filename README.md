@@ -8,7 +8,6 @@ A web application for Tom and Jerry fans to view pictures, animations, and parti
 - Gallery of Tom and Jerry pictures
 - Animation showcase
 - Discussion forum
-- Responsive design
 
 ## Technologies Used
 
@@ -16,6 +15,4 @@ A web application for Tom and Jerry fans to view pictures, animations, and parti
 - Express.js
 - MongoDB
 - EJS templating
-- CSS3
 - JavaScript
-
