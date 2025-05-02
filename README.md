@@ -12,7 +12,6 @@ A web application for Tom and Jerry fans to view pictures, animations, and parti
 ## Technologies Used
 
 - Node.js
-- Express.js
 - MongoDB
 - EJS templating
 - JavaScript
